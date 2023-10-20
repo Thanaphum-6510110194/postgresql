@@ -45,17 +45,18 @@ def notes_create():
 
     db = models.db
     for tag_name in form.tags.data:
-        tag = (
-            db.session.execute(db.select(models.Tag).where(models.Tag.name == tag_name))
-            .scalars()
-            .first()
-        )
+        if tag_name != '':
+            tag = (
+                db.session.execute(db.select(models.Tag).where(models.Tag.name == tag_name))
+                .scalars()
+                .first()
+            )
 
-        if not tag:
-            tag = models.Tag(name=tag_name)
-            db.session.add(tag)
+            if not tag:
+                tag = models.Tag(name=tag_name)
+                db.session.add(tag)
 
-        note.tags.append(tag)
+            note.tags.append(tag)
 
     db.session.add(note)
     db.session.commit()
