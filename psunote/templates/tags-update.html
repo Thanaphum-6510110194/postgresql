@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block body %}
+<ul class="nav justify-content-center" style="padding-top: 1em;">
+    <li class="nav-item">
+      <a class="btn btn-primary" href="{{ url_for('index') }}">Home</a>
+    </li>
+  </ul>
+<h3 class="my-2">UPDATE NOTE</h3>
+<form action="" method="POST">
+  {{ form.hidden_tag() }}
+  <div class="form-group my-3">
+    {{ form.title.label }}
+    {{ form.title(class_='form-control') }}
+  </div>
+  <div class="form-group my-3">
+    {{ form.description.label }}
+    {{ form.description(class_='form-control', rows=10) }}
+  </div>
+  <div class="form-group my-3">
+    {{ form.tags.label }}
+    {{ form.tags(class='form-control', value=filltag) }}
+  </div>
+  <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+{% endblock %}
