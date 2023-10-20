@@ -1,26 +1,22 @@
 {% extends 'base.html' %}
+{% block title %}Tag: {{ tag.name }}{% endblock %}
 {% block body %}
 <ul class="nav justify-content-center" style="padding-top: 1em;">
     <li class="nav-item">
-      <a class="btn btn-primary" href="{{ url_for('index') }}">Home</a>
+        <a class="btn btn-primary" href="{{ url_for('index') }}">NOTE</a>
+    </li>
+    <li class="nav-item">
+        <a class="btn btn-secondary" href="{{ url_for('tags') }}">Tags</a>
     </li>
   </ul>
-<h3 class="my-2">UPDATE NOTE</h3>
+<h3 class="my-2">UPDATE TAG</h3>
 <form action="" method="POST">
   {{ form.hidden_tag() }}
   <div class="form-group my-3">
-    {{ form.title.label }}
-    {{ form.title(class_='form-control') }}
+    {{ form.name.label }}
+    {{ form.name(class_='form-control' , placeholder = 'New Name')}}
   </div>
-  <div class="form-group my-3">
-    {{ form.description.label }}
-    {{ form.description(class_='form-control', rows=10) }}
-  </div>
-  <div class="form-group my-3">
-    {{ form.tags.label }}
-    {{ form.tags(class='form-control', value=filltag) }}
-  </div>
-  <button type="submit" class="btn btn-primary">Save</button>
+  <button type="submit" class="btn btn-success">Save</button>
 </form>
 
 {% endblock %}
