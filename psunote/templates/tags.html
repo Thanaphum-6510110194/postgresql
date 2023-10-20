@@ -1,0 +1,33 @@
+{% extends 'base.html' %} {% block body %}
+<ul class="nav justify-content-center" style="padding-top: 1em">
+  <li class="nav-item">
+    <a class="btn btn-primary" href="{{ url_for('index') }}">NOTE</a>
+  </li>
+</ul>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th style="text-align: center;">Tag Name</th>
+      <th style="text-align: center;">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for tag in tags %}
+    <tr>
+      <td>{{ tag.name }}</td>
+      <td>
+        <a
+          class="btn btn-sm btn-success"
+          >Edit</a
+        >
+        <a
+          class="btn btn-sm btn-danger"
+          >Delete</a
+        >
+        </div>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

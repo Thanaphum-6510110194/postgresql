@@ -24,6 +24,11 @@ def index():
         notes=notes,
     )
 
+@app.route("/tags")
+def tags():
+    db = models.db
+    tags = db.session.query(models.Tag).order_by(models.Tag.name).all()
+    return flask.render_template("tags.html", tags=tags)
 
 @app.route("/notes/create", methods=["GET", "POST"])
 def notes_create():
@@ -122,7 +127,7 @@ def notes_delete(note_id):
     if note:
         db.session.delete(note)
         db.session.commit()
-        print(f"Delete {note_id} success")
+        print(f"Delete [{note.id}] : {note.title} success")
     return flask.redirect(flask.url_for("index"))
 
 @app.route("/tags/update/<int:tag_id>", methods=["GET", "POST"])
