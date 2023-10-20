@@ -85,6 +85,31 @@ def notes_update(note_id):
         filltag += tag.name + ","
 
     form = forms.NoteForm(obj=note)
+
+    if form.validate_on_submit():
+        note.title = form.title.data
+        note.description = form.description.data
+
+        note_tags = []
+        for tag_name in form.tags.data:
+            if tag_name != '':
+                tag = (
+                    db.session.execute(db.select(models.Tag).where(models.Tag.name == tag_name))
+                    .scalars()
+                    .first()
+                )
+                if not tag:
+                    tag = models.Tag(name=tag_name)
+                    db.session.add(tag)
+
+                note_tags.append(tag)
+
+        note.tags = note_tags
+        note.updated_date = func.now()
+        db.session.commit()
+        
+        return flask.redirect(flask.url_for("index"))
+
     
     return flask.render_template("notes-update.html", form=form, note=note, filltag=filltag)
 
@@ -99,6 +124,14 @@ def notes_delete(note_id):
         db.session.commit()
         print(f"Delete {note_id} success")
     return flask.redirect(flask.url_for("index"))
+
+@app.route("/tags/update/<int:tag_id>", methods=["GET", "POST"])
+def tags_edit(tag_id):
+    db = models.db
+    
+    tag = db.session.query(models.Tag).get(tag_id)
+    form = forms.TagForm()
+    return flask.render_template("tags-update.html", form=form, tag=tag)
 
 if __name__ == "__main__":
     app.run(debug=True)
