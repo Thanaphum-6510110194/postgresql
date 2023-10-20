@@ -4,6 +4,9 @@
   <li class="nav-item">
     <a class="btn btn-primary" href="{{ url_for('notes_create') }}">Create</a>
   </li>
+  <li class="nav-item">
+    <a class="btn btn-secondary" href="{{ url_for('tags') }}">Tags</a>
+  </li>
 </ul>
 {% for note in notes %}
 <div class="card my-3">
@@ -20,8 +23,8 @@
       <br>
       Last update: {{ note.updated_date }}
     </div>
-    <a class="btn btn-success" href="{{ url_for('notes_update', note_id=note.id) }}">UPDATE</a>
-    <a class="btn btn-primary" href="{{ url_for('notes_delete',note_id = note.id) }}">DELETE</a>
+    <a class="btn btn-sm btn-success" href="{{ url_for('notes_update', note_id=note.id) }}">UPDATE</a>
+    <a class="btn btn-sm btn-danger" href="{{ url_for('notes_delete',note_id = note.id) }}">DELETE</a>
   </div>
 </div>
 {% endfor %}
