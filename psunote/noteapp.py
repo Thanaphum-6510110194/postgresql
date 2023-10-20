@@ -76,7 +76,18 @@ def tags_view(tag_name):
         notes=notes,
     )
 
+@app.route("/notes/delete/<int:note_id>", methods=["GET"])
+def notes_delete(note_id):
+    db = models.db
+    note = db.session.query(models.Note).get(note_id)
 
+    #if note not null
+    if note:
+        db.session.delete(note)
+        db.session.commit()
+        print(f"Delete {note_id} success")
+    return flask.redirect(flask.url_for("index"))
 
 if __name__ == "__main__":
     app.run(debug=True)
+    
