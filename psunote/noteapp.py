@@ -2,7 +2,7 @@ import flask
 
 import models
 import forms
-
+from sqlalchemy.sql import func
 
 app = flask.Flask(__name__)
 app.config["SECRET_KEY"] = "This is secret key"
@@ -76,6 +76,18 @@ def tags_view(tag_name):
         notes=notes,
     )
 
+@app.route("/notes/update/<int:note_id>", methods=["GET", "POST"])
+def notes_update(note_id):
+    db = models.db
+    note = db.session.query(models.Note).get(note_id)
+    filltag = ""
+    for tag in note.tags:
+        filltag += tag.name + ","
+
+    form = forms.NoteForm(obj=note)
+    
+    return flask.render_template("notes-update.html", form=form, note=note, filltag=filltag)
+
 @app.route("/notes/delete/<int:note_id>", methods=["GET"])
 def notes_delete(note_id):
     db = models.db
@@ -90,4 +102,3 @@ def notes_delete(note_id):
 
 if __name__ == "__main__":
     app.run(debug=True)
-    
