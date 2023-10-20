@@ -141,8 +141,18 @@ def tags_update(tag_id):
         tag.name = form.name.data
         db.session.commit()
         return flask.redirect(flask.url_for("tags"))
-
     return flask.render_template("tags-update.html", form=form, tag=tag)
+
+@app.route("/tags/delete/<int:tag_id>", methods=["GET"])
+def tags_delete(tag_id):
+    db = models.db
+    tag = db.session.query(models.Tag).get(tag_id)
+    notes_tag = db.session.query(models.Note).filter(models.Note.tags.any(id=tag_id)).all()
+    for note in notes_tag:
+        note.tags.remove(tag)
+    db.session.delete(tag)
+    db.session.commit()
+    return flask.redirect(flask.url_for("tags"))
 
 if __name__ == "__main__":
     app.run(debug=True)
